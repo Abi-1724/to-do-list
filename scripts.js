@@ -1,65 +1,67 @@
-/* Place your JavaScript in this file */
-
-
-// Get DOM elements
-const taskInput = document.getElementById('taskInput');
-const dueDateInput = document.getElementById('dueDateInput');
-const addTaskBtn = document.getElementById('addTaskBtn');
-const taskList = document.getElementById('taskList');
-const doLaterList = document.getElementById('doLaterList');
-const progressBar = document.getElementById('progressBar');
-const progressText = document.getElementById('progressText');
-
-// Add event listener to the add task button
-addTaskBtn.addEventListener('click', addTask);
+let totalTasks = 0;
+let completedTasks = 0;
 
 function addTask() {
+    const taskInput = document.getElementById('taskInput');
     const taskText = taskInput.value.trim();
-    const dueDate = dueDateInput.value;
+    const taskDate = document.getElementById('taskDate').value;
 
-    // Check if both fields are filled
-    if (taskText === '' || dueDate === '') {
-        alert('Please fill in both the task and due date fields');
+    if (taskText === '' || taskDate === '') {
+        alert('Please enter both task and due date.');
         return;
     }
 
-    const taskItem = document.createElement('li');
-    taskItem.className = 'task-item';
-    taskItem.innerHTML = `
-        <span>${taskText}</span>
-        <span>${dueDate}</span>
-        <button class="complete-btn">Complete</button>
-        <button class="delete-btn">Delete</button>
-    `;
-
-    if (new Date(dueDate) > new Date()) {
-        doLaterList.appendChild(taskItem);
-    } else {
-        taskList.appendChild(taskItem);
-    }
-
-    taskInput.value = '';
-    dueDateInput.value = '';
-
+    totalTasks++;
     updateProgress();
+
+    const taskList = document.getElementById('taskList');
+    const li = document.createElement('li');
+
+    const taskContent = document.createElement('span');
+    taskContent.textContent = `${taskText} (Due: ${taskDate})`;
+
+    const buttonContainer = document.createElement('div');
+    buttonContainer.classList.add('button-container');
+
+    const completeButton = document.createElement('button');
+    completeButton.textContent = 'Complete';
+    completeButton.onclick = function () {
+        if (!li.classList.contains('completed')) {
+            li.classList.add('completed');
+            completedTasks++;
+            updateProgress();
+        }
+    };
+
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Delete';
+    deleteButton.classList.add('delete-btn');
+    deleteButton.onclick = function () {
+        taskList.removeChild(li);
+        if (li.classList.contains('completed')) {
+            completedTasks--;
+        }
+        totalTasks--;
+        updateProgress();
+    };
+
+    // Append buttons to the button container
+    buttonContainer.appendChild(completeButton);
+    buttonContainer.appendChild(deleteButton);
+
+    // Append task content and button container to the list item
+    li.appendChild(taskContent);
+    li.appendChild(buttonContainer);
+
+    // Append the list item to the task list
+    taskList.appendChild(li);
+
+    // Clear input fields
+    taskInput.value = '';
+    document.getElementById('taskDate').value = ''; // Reset date input
 }
 
 function updateProgress() {
-    const totalTasks = taskList.children.length + doLaterList.children.length;
-    const completedTasks = document.querySelectorAll('.task-item.completed').length;
-    const progress = totalTasks === 0 ? 0 : (completedTasks / totalTasks) * 100;
-
-    progressBar.style.width = `${progress}%`;
-    progressText.textContent = `${Math.round(progress)}%`;
+    document.getElementById('completedCount').textContent = completedTasks;
+    document.getElementById('totalTasks').textContent = totalTasks;
 }
-
-// Event delegation for complete and delete buttons
-document.addEventListener('click', function(e) {
-    if (e.target.classList.contains('complete-btn')) {
-        e.target.parentElement.classList.toggle('completed');
-        updateProgress();
-    } else if (e.target.classList.contains('delete-btn')) {
-        e.target.parentElement.remove();
-        updateProgress();
-    }
-});
