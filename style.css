@@ -1,86 +1,108 @@
-<style>  
-    body {  
-        font-family: 'Arial', sans-serif;  
-            background-image: url('pexels-polina-kovaleva-5546907.jpg'); /* Replace with your image URL */  
-             
-        background-size: cover; /* Cover the entire background */  
-        background-position: center; /* Center the background image */  
-        background-repeat: no-repeat; /* Prevent repeating the image */  
-    }  
 
-    .container {  
-        max-width: 600px;  
-        margin: 0 auto;  
-        padding: 20px;  
-        background-color: rgba(255, 255, 255, 0.8); /* White background with transparency */  
-        border-radius: 8px;  
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */  
-    }  
 
-    h1, h2 {  
-        color: #2d3748; /* Dark gray for headings */  
-    }  
 
-    input[type="text"], input[type="date"] {  
-        width: calc(100% - 40px); /* Full width minus button space */  
-        padding: 10px;  
-        margin-bottom: 10px;  
-        border: 1px solid #cbd5e0; /* Light gray border */  
-        border-radius: 4px;  
-        transition: border-color 0.3s;  
-    }  
 
-    input[type="text"]:focus, input[type="date"]:focus {  
-        border-color: #8A816E; /* Blue border on focus */  
-        outline: none; /* Remove default outline */  
-    }  
 
-    button {  
-        background-color: #8A816E; /* Blue background */  
-        color: white; /* White text */  
-        padding: 10px 15px;  
-        border: none;  
-        border-radius: 4px;  
-        cursor: pointer;  
-        transition: background-color 0.3s;  
-    }  
 
-    button:hover {  
-        background-color: #8A816E; /* Darker blue on hover */  
-    }  
 
-    .task-item {  
-        display: flex;  
-        justify-content: space-between;  
-        align-items: center;  
-        padding: 10px;  
-        border-bottom: 1px solid #e2e8f0; /* Light gray border */  
-    }  
 
-    .task-item span {  
-        flex-grow: 1; /* Allow text to take available space */  
-    }  
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('pexels-polina-kovaleva-5546907.jpg'); /* Add your image URL here */
+    background-size: cover; /* Make sure the image covers the entire background */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0; /* Remove default margin */
+}
 
-    .line-through {  
-        text-decoration: line-through; /* Strikethrough for completed tasks */  
-        color: #8A816E; /* Gray color for completed tasks */  
-    }  
+.container {
+    background-color: rgba(255, 255, 255, 0.9); /* Slight transparency to see the background */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    text-align: center;
+}
 
-    .progress-container {  
-        background-color: #edf2f7; /* Light gray for progress bar background */  
-        border-radius: 4px;  
-        overflow: hidden; /* Ensure rounded corners */  
-    }  
+input {
+    padding: 12px;
+    margin: 10px 0;
+    width: 90%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
 
-    .progress-bar {  
-        background-color: #8A816E; /* Blue for progress */  
-        height: 8px; /* Height of the progress bar */  
-        transition: width 0.3s; /* Smooth transition for progress */  
-    }  
+button {
+    padding: 12px 24px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 5px;
+    font-size: 16px;
+}
 
-    .alert {  
-        color:#8A816E; /* Red color for alert messages */  
-        font-weight: bold;  
-    }  
+button:hover {
+    background-color: #218838;
+}
 
-</style>
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    padding: 15px;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Aligns buttons vertically in the center */
+    flex-wrap: wrap;
+    font-size: 16px;
+}
+
+li.completed {
+    text-decoration: line-through;
+    color: gray;
+}
+
+span {
+    flex-grow: 1;
+    margin-right: 10px;
+    word-wrap: break-word;
+}
+
+button {
+    padding: 8px 16px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 5px;
+    font-size: 14px; /* Slightly smaller font size for better alignment */
+}
+
+button.delete-btn {
+    background-color: #dc3545;
+}
+
+button.delete-btn:hover {
+    background-color: #c82333;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+button-container {
+    display: flex;
+    gap: 10px; /* Space between the buttons */
+}
+
