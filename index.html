@@ -1,155 +1,24 @@
-<!DOCTYPE html>  
-<html lang="en">  
-<head>  
-    <meta charset="UTF-8">  
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">  
-    <title>Task Management</title>  
-</head>  
-<body class="bg-gray-100 p-6"> 
-    <style>  
-        body {  
-            font-family: 'Arial', sans-serif;  
-            background-image: url('pexels-polina-kovaleva-5546907.jpg'); /* Replace with your image URL */  
-            background-size: cover; /* Cover the entire background */  
-            background-position: center; /* Center the background image */  
-            background-repeat: no-repeat; /* Prevent repeating the image */  
-        }  
-    
-        .container {  
-            max-width: 600px;  
-            padding: 20px;  
-            background-color: rgba(255, 255, 255, 0.8); /* White background with transparency */  
-            border-radius: 8px;  
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */  
-            margin: 0; /* No automatic centering */
-        }  
-    
-        h1, h2 {  
-            color: #2d3748; /* Dark gray for headings */  
-        }  
-    
-        input[type="text"], input[type="date"] {  
-            width: calc(100% - 40px); /* Full width minus button space */  
-            padding: 10px;  
-            margin-bottom: 10px;  
-            border: 1px solid #cbd5e0; /* Light gray border */  
-            border-radius: 4px;  
-            transition: border-color 0.3s;  
-        }  
-    
-        input[type="text"]:focus, input[type="date"]:focus {  
-            border-color: #8A816E; /* Blue border on focus */  
-            outline: none; /* Remove default outline */  
-        }  
-    
-        button {  
-            background-color: #8A816E; /* Blue background */  
-            color: white; /* White text */  
-            padding: 10px 15px;  
-            border: none;  
-            border-radius: 4px;  
-            cursor: pointer;  
-            transition: background-color 0.3s;  
-        }  
-    
-        button:hover {  
-            background-color: #8A816E; /* Darker blue on hover */  
-        }  
-    
-        .task-item {  
-            display: flex;  
-            justify-content: space-between;  
-            align-items: center;  
-            padding: 10px;  
-            border-bottom: 1px solid #e2e8f0; /* Light gray border */  
-        }  
-    
-        .task-item span {  
-            flex-grow: 1; /* Allow text to take available space */  
-        }  
-    
-        .line-through {  
-            text-decoration: line-through; /* Strikethrough for completed tasks */  
-            color:#8A816E; /* Gray color for completed tasks */  
-        }  
-    
-        .progress-container {  
-            background-color: #edf2f7; /* Light gray for progress bar background */  
-            border-radius: 4px;  
-            overflow: hidden; /* Ensure rounded corners */  
-        }  
-    
-        .progress-bar {  
-            background-color: #816a37; /* Blue for progress */  
-            height: 8px; /* Height of the progress bar */  
-            transition: width 0.3s; /* Smooth transition for progress */  
-        }  
-        .input-container {
-            display: flex;
-            gap: 10px;
-        }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>To-Do List</h1>
+        <input type="text" id="taskInput" placeholder="Enter your task">
+        <input type="date" id="taskDate" placeholder="Enter due date">
+        <button onclick="addTask()">Add Task</button>
+        <ul id="taskList"></ul>
 
-        .input-container input {
-            flex-grow: 1;
-        }
-        .alert {  
-            color: #8A816E; /* Red color for alert messages */  
-            font-weight: bold;  
-        }  
-        #addTaskBtn {
-            background-color: #816a37; /* Blue background */
-            color: white; /* White text */
-            padding: 0%;
-            border: none;
-            border-radius: 10%; /* Round button */
-            border-top-left-radius: 50%;
-    border-top-right-radius: 50%;
-    border-bottom-right-radius: 50%;
-    border-bottom-left-radius: 50%;
-            width: 30px; /* Set fixed size for width */
-            height: 40px; /* Set fixed size for height */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.3s;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add subtle shadow */
-        }
+        <div id="progressBox">
+            <p>Tasks Completed: <span id="completedCount">0</span> / <span id="totalTasks">0</span></p>
+        </div>
+    </div>
 
-        /* Plus button hover effect */
-        #addTaskBtn:hover {
-            background-color: #816a37; /* Darker blue on hover */
-            transform: scale(1.1); /* Slight zoom on hover */
-        }
-    </style>
-    <div class="max-w-md bg-white rounded-lg shadow-md p-4 container">  
-        <h1 class="text-xl font-bold mb-2">Tasks</h1>  
-        <div class="mb-4">  
-            <div class="relative">  
-                <input type="text" id="taskInput" class="border border-gray-300 rounded-md p-2 w-full" placeholder="Add new item" />  
-                <input type="date" id="dueDateInput" class="border border-gray-300 rounded-md p-2 w-full mt-2" />  
-                <button id="addTaskBtn" class="absolute right-0 top-0 mt-2 mr-2 bg-blue-500 text-white rounded-md px-4">+</button>  
-            </div>  
-        </div>  
-        <div class="mb-4">  
-            <div class="flex items-center">  
-                <div class="w-full bg-gray-200 rounded-full h-2">  
-                    <div id="progressBar" class="bg-blue-500 h-2 rounded-full" style="width: 0%;"></div>  
-                </div>  
-                <span id="progressText" class="ml-2 text-sm">0%</span>  
-            </div>  
-        </div>  
-        <h2 class="text-lg font-semibold mb-2">Current Tasks</h2>  
-        <ul id="taskList" class="space-y-2">  
-            <!-- Current task items will be added here -->  
-        </ul>  
-        <h2 class="text-lg font-semibold mt-4 mb-2">Do Later</h2>  
-        <ul id="doLaterList" class="space-y-2">  
-            <!-- Do later task items will be added here -->  
-        </ul>  
-    </div>  
-
-    <script src="script.js"></script>  
-</body>  
+    <script src="scripts.js"></script>
+</body>
 </html>
